@@ -1,5 +1,5 @@
 import { Provider } from 'react-redux';
-import RootStack from "./src/navigation/rootStack";
+import RootStack from "./src/navigation/RootStack";
 import { store } from './src/redux/store';
 
 const App = () => {

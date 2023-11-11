@@ -1,12 +1,15 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { Screens, Strings } from '../utils/constants';
+import { Screens } from '../utils/constants';
 import { HomeScreen, SplashScreen } from '../screens';
+import HomeTabs from './HomeTabs';
 
 export type RootStackParamList = {
     Splash: undefined;
+    HomeTabs: undefined;
     Home: undefined;
+    Explore: undefined;
     Settings: {
         userId: number;
     };
@@ -24,6 +27,7 @@ const RootStack = () => {
                 initialRouteName={Screens.Splash}
             >
                 <Stack.Screen name={Screens.Splash} component={SplashScreen} />
+                <Stack.Screen name={Screens.HomeTabs} component={HomeTabs} />
                 <Stack.Screen name={Screens.Home} component={HomeScreen} />
             </Stack.Navigator>
         </NavigationContainer>

@@ -1,63 +1,80 @@
-import * as React from 'react';
-
-import { StyleSheet, View, Button, Text } from 'react-native';
+import React, { useEffect } from 'react';
+import {
+   View, Text, TouchableOpacity, GestureResponderEvent, StatusBar, SafeAreaView, Image,
+} from 'react-native';
 import switchTheme from 'react-native-theme-switch-animation';
-
 import { useAppSelector, useAppDispatch } from '../../redux/hooks';
 import { light, dark } from '../../redux/slice/themeSlice';
-import { Theme } from '../../utils/constants';
+import { Theme, Colors, Images } from '../../utils/constants';
+import styles from './HomeScreen.styles';
 
 export default function HomeScreen() {
-  
+
   const theme = useAppSelector((state) => state.theme.value)
   const dispatch = useAppDispatch()
+  const backgroundColor = theme === Theme.Light ? Colors.BackgroundLightColor : Colors.BackgroundDarkColor;
+  const oppositeColor = theme === Theme.Light ? Colors.BackgroundDarkColor : Colors.BackgroundLightColor;
 
-  return (
-    <View
-      style={{
-        ...styles.container,
-        backgroundColor: theme === 'light' ? 'white' : 'black',
-      }}
-    >
-      <Button
-        title="Switch Theme"
-        onPress={() => {
+  const changeThemeAction = (e: GestureResponderEvent) => {
+    if (e.currentTarget) {
+      (e.currentTarget as any).measure(
+        (
+          x1: number,
+          y1: number,
+          width: number,
+          height: number,
+          px: number,
+          py: number
+        ) => {
           switchTheme({
             switchThemeFunction: () => {
               dispatch(theme === Theme.Light ? dark() : light()); // your switch theme function
             },
             animationConfig: {
               type: 'circular',
-              duration: 800,
+              duration: 900,
               startingPoint: {
-                cxRatio: 0.5,
-                cyRatio: 0.5
+                cy: py + height / 2,
+                cx: px + width / 2,
               }
             },
           });
-        }}
-      />
+        }
+      );
+    }
+  };
 
-      <View style={{backgroundColor: theme === 'light' ? 'red' : 'green',
-       width: 600, height: 600, justifyContent: 'center', alignItems: 'center'}}>
-        <Text style={{color: theme === 'light' ? 'black' : 'white', fontSize: 30,
-         fontWeight: 'bold', fontStyle: 'italic'}}>WELCOME HOME</Text>
+  return (
+    <>
+      <StatusBar barStyle={theme === Theme.Light ? 'dark-content' : 'light-content'} />
+      <SafeAreaView style={{ ...styles.container, backgroundColor: backgroundColor }}>
 
-      </View>
+        {/* Top Bar */}
+        <View style={styles.topBar}>
+          <TouchableOpacity onPress={changeThemeAction}>
+            <Image
+              style={{
+                ...styles.topBarIcon,
+                tintColor: oppositeColor
+              }}
+              source={Images.MenuIcon}
+            />
+          </TouchableOpacity>
 
-    </View>
+          <TouchableOpacity onPress={changeThemeAction}>
+            <Image
+              style={{
+                ...styles.topBarIcon,
+                tintColor: oppositeColor
+              }}
+              source={ theme === Theme.Light ? Images.ThemeDarkIcon : Images.ThemeLightIcon}
+            />
+          </TouchableOpacity>
+
+        </View>
+
+
+      </SafeAreaView>
+    </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  box: {
-    width: 60,
-    height: 60,
-    marginVertical: 20,
-  },
-});
