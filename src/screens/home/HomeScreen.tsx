@@ -6,7 +6,7 @@ import switchTheme from 'react-native-theme-switch-animation';
 import { useAppSelector, useAppDispatch } from '../../redux/hooks';
 import { light, dark } from '../../redux/slice/themeSlice';
 import { fetchNews } from '../../redux/slice/newsSlice';
-import { Theme, Colors, Images } from '../../utils/constants';
+import { Theme, Colors, Images, Strings } from '../../utils/constants';
 import styles from './HomeScreen.styles';
 import NewsFlatList from '../../components/listItems/NewsFlatList'
 
@@ -15,6 +15,8 @@ export default function HomeScreen() {
   const dispatch = useAppDispatch()
   const theme = useAppSelector((state) => state.theme.value)
   const { isLoading, newsData, isError } = useAppSelector((state) => state.news);
+  // Filter out items with the specified title
+  const filteredNewsItems = newsData?.articles.filter(item => item.title !== Strings.Removed);
   
   const backgroundColor = theme === Theme.Light ? Colors.BackgroundLightColor : Colors.BackgroundDarkColor;
   const oppositeColor = theme === Theme.Light ? Colors.BackgroundDarkColor : Colors.BackgroundLightColor;
@@ -85,7 +87,7 @@ export default function HomeScreen() {
 
         </View>
 
-        <NewsFlatList data={newsData?.articles || []} />
+        <NewsFlatList data={filteredNewsItems || []} />
 
 
       </SafeAreaView>

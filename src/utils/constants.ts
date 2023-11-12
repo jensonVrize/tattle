@@ -10,8 +10,9 @@ export enum Screens {
 }
 
 export enum Strings {
-    Home = 'Home',
-    Splash = 'Splash',
+    ThumbnailImage = 'https://img.freepik.com/free-vector/illustration-gallery-icon_53876-27002.jpg?w=2000',
+    Removed = '[Removed]',
+
 }
 
 export enum Theme {
@@ -28,6 +29,8 @@ export enum Colors {
     BackgroundDarkColor = '#030303',
     TabBackgroundLightColor = '#d8d5d5',
     TabBackgroundDarkColor = '#232222',
+    NewsItemBGDarkColor = '#1E1E1E',
+    NewsItemBGLightColor = '#ebe5e5',
 }
 
 export enum Images {
