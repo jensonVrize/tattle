@@ -5,13 +5,17 @@ import {
 import switchTheme from 'react-native-theme-switch-animation';
 import { useAppSelector, useAppDispatch } from '../../redux/hooks';
 import { light, dark } from '../../redux/slice/themeSlice';
+import { fetchNews } from '../../redux/slice/newsSlice';
 import { Theme, Colors, Images } from '../../utils/constants';
 import styles from './HomeScreen.styles';
+import NewsFlatList from '../../components/listItems/NewsFlatList'
 
 export default function HomeScreen() {
 
-  const theme = useAppSelector((state) => state.theme.value)
   const dispatch = useAppDispatch()
+  const theme = useAppSelector((state) => state.theme.value)
+  const { isLoading, newsData, isError } = useAppSelector((state) => state.news);
+  
   const backgroundColor = theme === Theme.Light ? Colors.BackgroundLightColor : Colors.BackgroundDarkColor;
   const oppositeColor = theme === Theme.Light ? Colors.BackgroundDarkColor : Colors.BackgroundLightColor;
 
@@ -44,6 +48,14 @@ export default function HomeScreen() {
     }
   };
 
+
+
+  useEffect(() => {
+    console.log("Home: Fetching news state.news.isLoading: ",isLoading);
+    
+    dispatch(fetchNews());
+  }, []);
+
   return (
     <>
       <StatusBar barStyle={theme === Theme.Light ? 'dark-content' : 'light-content'} />
@@ -72,6 +84,8 @@ export default function HomeScreen() {
           </TouchableOpacity>
 
         </View>
+
+        <NewsFlatList data={newsData?.articles || []} />
 
 
       </SafeAreaView>

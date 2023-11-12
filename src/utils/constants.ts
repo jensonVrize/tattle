@@ -40,3 +40,10 @@ export enum Images {
     ThemeLightIcon = require('../assets/images/lightThemeIcon.png'),
     ThemeDarkIcon = require('../assets/images/darkThemeIcon.png'),
 };
+
+export enum API {
+    ApiKey = 'ef5b910bb4a047d289c7366e96d9d9df',
+    BaseURL = 'https://newsapi.org/v2/',
+    TopHeadlines = 'top-headlines?country=us', //TODO: Need to change country
+    ParamApiKey = '&apiKey=',
+}

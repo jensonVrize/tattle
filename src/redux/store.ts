@@ -1,11 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
 import themeReducer from './slice/themeSlice'
-// ...
+import newsSlice from './slice/newsSlice'
 
 export const store = configureStore({
   reducer: {
     theme: themeReducer,
-    
+    news: newsSlice,
   },
 })
 
